@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Toplu Yazdır</title>
+  <style>
+    @media print {
+      @page {
+        size: 100mm 150mm;
+        margin: 0;
+      }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+      }
+
+      .etiket-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        padding: 6px;
+      }
+
+      .etiket {
+        width: 100mm;
+        height: 150mm;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        page-break-inside: avoid;
+        border: 1px solid #ddd;
+      }
+
+      .etiket img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        image-rendering: pixelated;
+      }
+    }
+
+    @media screen {
+      .etiket-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        padding: 10px;
+      }
+
+      .etiket {
+        width: 48mm;
+        height: 74mm;
+        background: white;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 4px rgba(0,0,0,0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease;
+      }
+
+      .etiket:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 8px rgba(0,0,0,0.3);
+      }
+
+      .etiket img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        image-rendering: pixelated;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="etiket-container">
+    {% for code in codes %}
+      <div class="etiket">
+        <img src="{{ url_for('etiket', code=code, type=selected_type) }}" alt="{{ code }}">
+      </div>
+    {% endfor %}
+  </div>
+
+  <script>
+    window.onload = function () {
+      const images = document.querySelectorAll('img');
+      let loaded = 0;
+      images.forEach(img => {
+        if (img.complete) loaded++;
+        else img.onload = () => {
+          loaded++;
+          if (loaded === images.length) window.print();
+        };
+      });
+      if (loaded === images.length) window.print();
+    };
+  </script>
+</body>
+</html>
+
+
+
+
