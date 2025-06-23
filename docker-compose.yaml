@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  barcode-app:
+    build: .
+    container_name: barcode-generator
+    ports:
+      - "8081:5000"
+    restart: always
