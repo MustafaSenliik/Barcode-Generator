@@ -23,11 +23,9 @@ def generate_image(code: str, code_type: str = 'qr') -> bytes:
     draw = ImageDraw.Draw(etiket)
 
     try:
-        font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 240)
+        font = ImageFont.truetype("arialbd.ttf", 285)
     except:
         font = ImageFont.load_default()
-
-
 
     try:
         parts = code.split('-')
